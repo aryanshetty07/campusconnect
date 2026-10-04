@@ -546,6 +546,51 @@ p{margin:0;}
   .cc-fab{right:16px;bottom:16px;width:56px;height:56px;}
   .cc-chat{right:12px;left:12px;bottom:82px;width:auto;max-width:none;height:calc(100dvh - 150px);max-height:calc(100dvh - 150px);border-radius:18px;}
 }
+
+/* ============================================================
+   AI TOOLS (organiser page)
+   ============================================================ */
+.ai-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:20px;align-items:start}
+.ai-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 22px}
+.ai-panel h3{font-size:14.5px;margin-bottom:3px}
+.ai-hint{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.ai-input{width:100%;min-height:148px;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);font-family:var(--font);font-size:13.5px;line-height:1.6;color:var(--ink);resize:vertical}
+.ai-input:focus{outline:none;border-color:var(--blue-600);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.ai-attach{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border:1px dashed #c8d2e4;border-radius:10px;background:var(--surface-2);font-size:12.5px;color:var(--muted)}
+.ai-thumb{width:42px;height:42px;border-radius:9px;flex:0 0 auto;background:var(--grad-brand);color:#fff;display:grid;place-items:center}
+.ai-thumb svg{width:19px;height:19px}
+.ai-steps{display:grid;gap:10px;margin-top:4px}
+.ai-step{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted-2)}
+.ai-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto;border:2px solid var(--line);transition:all .2s}
+.ai-step.done{color:var(--ink-2)}
+.ai-step.done .ai-dot{background:var(--blue-600);border-color:var(--blue-600)}
+.ai-step.active{color:var(--blue-700);font-weight:600}
+.ai-step.active .ai-dot{border-color:var(--blue-600);animation:aiPulse 1s infinite}
+@keyframes aiPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ai-field{margin-bottom:13px}
+.ai-field label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+.ai-field input,.ai-field select,.ai-field textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-family:var(--font);font-size:13px;color:var(--ink);background:#fff}
+.ai-field textarea{min-height:82px;resize:vertical;line-height:1.55}
+.ai-field input:focus,.ai-field select:focus,.ai-field textarea:focus{outline:none;border-color:var(--blue-600);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.ai-field.needs{border-left:3px solid #f59e0b;padding-left:11px;margin-left:-14px}
+.ai-badge{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px}
+.ai-badge.ok{background:#ecfdf3;color:#15803d}
+.ai-badge.check{background:#fff7ed;color:#b45309}
+.ai-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}
+.ai-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.ai-kpi{border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.ai-kpi b{display:block;font-size:19px;line-height:1.2;color:var(--ink)}
+.ai-kpi span{font-size:11.5px;color:var(--muted)}
+.ai-report{font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.ai-report h4{font-size:13.5px;color:var(--ink);margin:15px 0 4px}
+.ai-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+.ai-table th,.ai-table td{padding:7px 6px;border-bottom:1px solid var(--line-2);text-align:left}
+.ai-table th{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted-2)}
+.ai-table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.ai-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.ai-tab{padding:11px 15px;border:none;border-bottom:2px solid transparent;background:none;font-family:var(--font);font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap}
+.ai-tab.active{color:var(--blue-700);border-bottom-color:var(--blue-700);font-weight:600}
+@media (max-width:900px){.ai-layout{grid-template-columns:minmax(0,1fr)}.ai-kpis{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -563,6 +608,7 @@ p{margin:0;}
       <a class="nav__link" href="#/home" data-nav="home">Home</a>
       <a class="nav__link" href="#/events" data-nav="events">Events</a>
       <a class="nav__link" href="#/clubs" data-nav="clubs">Clubs</a>
+      <a class="nav__link" href="#/organiser" data-nav="organiser">For Organisers</a>
       <a class="nav__link" href="#/about" data-nav="about">About</a>
       <a class="nav__link" href="#/contact" data-nav="contact">Contact</a>
     </nav>
@@ -1462,6 +1508,7 @@ function render(){
     case 'event':
       html = pageEventDetail(parts[1]); activeNav='events'; break;
     case 'clubs': html = pageClubs(); break;
+    case 'organiser': html = pageOrganiser(); break;
     case 'dashboard': html = pageDashboard(); break;
     case 'login': html = pageLogin(params.get('mode')); activeNav='login'; break;
     case 'about': html = pageAbout(); break;
@@ -1476,12 +1523,481 @@ function render(){
 
   if(root === 'events'){ bindEventsPage(); renderEventResults(); }
   if(root === 'clubs'){ bindClubsPage(); }
+  if(root === 'organiser'){ bindOrganiser(); }
   if(root === 'login'){ bindAuthPage(params.get('mode')==='signup'); }
   if(root === 'contact'){ bindContactPage(); }
 
   window.scrollTo({ top:0, behavior:'instant' in window ? 'instant' : 'auto' });
   revealOnScroll();
 }
+
+
+/* ============================================================
+   AI TOOLS (organiser page)
+   ------------------------------------------------------------
+   Two AI features, aimed at the people who pay for the product
+   rather than at students:
+
+     1. An event copilot. Clubs already write their events out
+        in a WhatsApp group, so we take that messy message and
+        turn it into a publishable event listing.
+
+     2. An engagement report. Turns a term of registration and
+        attendance data into a written summary for the college.
+
+   The AI is simulated in the browser with rules so the site
+   still works offline. A real model plugs in at aiCallBackend,
+   which would post to our own backend rather than calling a
+   provider straight from the page.
+   ============================================================ */
+
+const AI_ICON = {
+  spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/></svg>',
+  image: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>',
+  check: ICON.check
+};
+
+let aiTab = 'create';
+let aiStage = 'idle';       // idle | thinking | done | published
+let aiStepsDone = 0;
+let aiExtracted = null;
+let aiReportStage = 'idle';
+let aiReportData = null;
+
+const AI_SAMPLE = 'hey guys robotics workshop this sat 3pm mech lab, bring laptops, ' +
+                  'rs 50 kit charge, open to all years. spots limited so register fast';
+
+// what the platform recorded this term, used by the report tool
+const AI_TERM = [
+  { category:'Technical',  registered:320, attended:268, lastTerm:240 },
+  { category:'Cultural',   registered:640, attended:448, lastTerm:610 },
+  { category:'Sports',     registered:210, attended:189, lastTerm:150 },
+  { category:'Workshops',  registered:145, attended:132, lastTerm:120 },
+  { category:'Hackathons', registered:214, attended:196, lastTerm:130 }
+];
+
+/* the single place a real model would be called */
+function aiCallBackend(task, payload){
+  // In production this posts to our own backend, which holds the model
+  // key and returns structured JSON. For the demo we run the rule based
+  // version so the page works with no network at all.
+  if(task === 'extract') return aiExtractEvent(payload);
+  if(task === 'report')  return aiBuildReport(payload);
+  return null;
+}
+
+/* ---------- helpers ---------- */
+function aiIso(d){
+  const m = d.getMonth() + 1, day = d.getDate();
+  return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
+}
+function aiTitleCase(s){ return s.replace(/\b\w/g, c => c.toUpperCase()); }
+function aiPct(x){ return Math.round(x * 100) + '%'; }
+function aiTime(h, mm){
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  let h12 = h % 12; if(h12 === 0) h12 = 12;
+  return (h12 < 10 ? '0' + h12 : h12) + ':' + mm + ' ' + suffix;
+}
+
+/* ---------- the extractor ---------- */
+function aiResolveDate(t){
+  const today = new Date();
+  const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+
+  const m = t.match(/\b(\d{1,2})\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+  if(m){
+    let d = new Date(today.getFullYear(), months.indexOf(m[2]), parseInt(m[1], 10));
+    if(d < today) d = new Date(today.getFullYear() + 1, months.indexOf(m[2]), parseInt(m[1], 10));
+    return { value: aiIso(d), confidence: 'ok' };
+  }
+
+  const days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  const shorts = ['sun','mon','tue','wed','thu','fri','sat'];
+  for(let i = 0; i < days.length; i++){
+    if(new RegExp('\\b' + days[i] + '\\b').test(t) || new RegExp('\\b' + shorts[i] + '\\b').test(t)){
+      const d = new Date(today);
+      let diff = (i - today.getDay() + 7) % 7;
+      if(diff === 0) diff = 7;
+      d.setDate(today.getDate() + diff);
+      // a weekday name is relative, so a human should confirm it
+      return { value: aiIso(d), confidence: 'check' };
+    }
+  }
+  if(/\btomorrow\b/.test(t)){
+    const d = new Date(today); d.setDate(today.getDate() + 1);
+    return { value: aiIso(d), confidence: 'check' };
+  }
+  return { value:'', confidence:'check' };
+}
+
+function aiResolveTime(t){
+  const m = t.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/);
+  if(m){
+    let h = parseInt(m[1], 10);
+    if(m[3] === 'pm' && h < 12) h += 12;
+    if(m[3] === 'am' && h === 12) h = 0;
+    return { value: aiTime(h, m[2] || '00'), confidence:'ok' };
+  }
+  const m2 = t.match(/\b(\d{1,2}):(\d{2})\b/);
+  if(m2) return { value: aiTime(parseInt(m2[1], 10), m2[2]), confidence:'ok' };
+  return { value:'', confidence:'check' };
+}
+
+function aiResolveVenue(text){
+  const t = text.toLowerCase();
+  const known = [
+    [/mech\s*lab|mechatronics/, 'Mechatronics Lab', 'check'],
+    [/cs\s*(seminar|hall)|seminar hall/, 'CS Seminar Hall', 'check'],
+    [/innovation lab/, 'Innovation Lab, Block C', 'ok'],
+    [/design studio/, 'Design Studio, Block A', 'ok'],
+    [/auditorium/, 'Auditorium, Main Building', 'ok'],
+    [/amphitheatre|amphi/, 'Open Air Amphitheatre', 'ok'],
+    [/central lawn|\blawn\b/, 'Central Lawn', 'ok'],
+    [/rooftop|\bcafe\b/, 'Rooftop Cafe', 'ok'],
+    [/main ground|\bground\b/, 'Main Ground', 'ok'],
+    [/lab\s*4|block d/, 'Lab 4, Block D', 'ok'],
+    [/\blab\b/, 'Innovation Lab, Block C', 'check']
+  ];
+  for(let i = 0; i < known.length; i++){
+    if(known[i][0].test(t)) return { value: known[i][1], confidence: known[i][2] };
+  }
+  return { value:'', confidence:'check' };
+}
+
+function aiExtractTags(text){
+  const t = text.toLowerCase();
+  const tags = [];
+  if(/bring (your )?laptop/.test(t)) tags.push('Bring a laptop');
+  if(/kit charge|kit fee|rs\s*\d+/.test(t)) tags.push('Kit charge applies');
+  if(/open to all|all years|all branches/.test(t)) tags.push('Open to all years');
+  if(/certificate/.test(t)) tags.push('Certificate provided');
+  if(/limited|spots|register fast/.test(t)) tags.push('Limited seats');
+  const m = t.match(/team of (\d)/);
+  if(m) tags.push('Team of ' + m[1]);
+  if(tags.length === 0) tags.push('Campus event');
+  return tags;
+}
+
+function aiWriteDescription(fields, original){
+  const t = original.toLowerCase();
+  let out = fields.title + ' is open to students across the college.';
+  if(/bring (your )?laptop/.test(t)) out += ' Please bring your own laptop for the session.';
+  if(/kit charge|rs\s*\d+/.test(t)) out += ' A small kit charge applies for materials.';
+  if(/open to all|all years/.test(t)) out += ' No prior experience is needed.';
+  out += ' Register on CampusConnect to confirm your seat.';
+  return out;
+}
+
+function aiExtractEvent(text){
+  const t = ' ' + text.toLowerCase() + ' ';
+  const fields = {}, flags = {};
+
+  let cat = 'Workshops';
+  if(/\bhackathon/.test(t)) cat = 'Hackathons';
+  else if(/workshop|bootcamp|training|crash course/.test(t)) cat = 'Workshops';
+  else if(/cricket|football|basketball|marathon|tournament|league|match/.test(t)) cat = 'Sports';
+  else if(/dance|music|sing|drama|open mic|fest|cultural/.test(t)) cat = 'Cultural';
+  else if(/coding|robot|machine learning|\bai\b|devops|cloud/.test(t)) cat = 'Technical';
+  fields.category = cat; flags.category = 'ok';
+
+  const subjects = ['robotics','design','coding','cloud','debate','quiz','cricket','music',
+                    'dance','photography','entrepreneurship','machine learning','drone','art','ai'];
+  let subject = '';
+  for(let i = 0; i < subjects.length; i++){
+    if(t.indexOf(subjects[i]) !== -1){ subject = subjects[i]; break; }
+  }
+  let kind = 'Event';
+  if(/workshop/.test(t)) kind = 'Workshop';
+  else if(/hackathon/.test(t)) kind = 'Hackathon';
+  else if(/bootcamp/.test(t)) kind = 'Bootcamp';
+  else if(/league|tournament|match/.test(t)) kind = 'League';
+  else if(/open mic|night/.test(t)) kind = 'Night';
+  else if(/challenge/.test(t)) kind = 'Challenge';
+  else if(/fest/.test(t)) kind = 'Fest';
+
+  fields.title = aiTitleCase(subject ? subject + ' ' + kind : kind);
+  flags.title = subject ? 'ok' : 'check';
+
+  const date = aiResolveDate(t);   fields.date = date.value;   flags.date = date.confidence;
+  const time = aiResolveTime(t);   fields.time = time.value;   flags.time = time.confidence;
+  const venue = aiResolveVenue(text); fields.location = venue.value; flags.location = venue.confidence;
+
+  fields.organizer = 'Campus Club';
+  fields.tags = aiExtractTags(text);
+  fields.desc = aiWriteDescription(fields, text);
+
+  return { fields: fields, flags: flags };
+}
+
+/* ---------- the report writer ---------- */
+function aiBuildReport(rows){
+  let totalReg = 0, totalAtt = 0, lastReg = 0;
+  rows.forEach(r => { totalReg += r.registered; totalAtt += r.attended; lastReg += r.lastTerm; });
+  const show = totalReg ? totalAtt / totalReg : 0;
+  const growth = lastReg ? (totalReg - lastReg) / lastReg : 0;
+
+  let best = null, worst = null, biggest = null, fastest = null;
+  rows.forEach(r => {
+    const sr = r.registered ? r.attended / r.registered : 0;
+    const g = r.lastTerm ? (r.registered - r.lastTerm) / r.lastTerm : 0;
+    if(!best || sr > best.sr) best = { r, sr };
+    if(!worst || sr < worst.sr) worst = { r, sr };
+    if(!biggest || r.registered > biggest.registered) biggest = r;
+    if(!fastest || g > fastest.g) fastest = { r, g };
+  });
+
+  const missed = worst.r.registered - worst.r.attended;
+
+  const insights = [
+    { h: 'Registrations are up ' + aiPct(growth) + ' on last term',
+      p: totalReg.toLocaleString('en-IN') + ' students registered across ' + rows.length +
+         ' categories, against ' + lastReg.toLocaleString('en-IN') + ' last term.' },
+    { h: fastest.r.category + ' grew fastest, at ' + aiPct(fastest.g),
+      p: 'Registrations moved from ' + fastest.r.lastTerm + ' to ' + fastest.r.registered +
+         ', the largest jump of any category.' },
+    { h: best.r.category + ' has the strongest turnout',
+      p: aiPct(best.sr) + ' of everyone who registered actually turned up, the best of any category.' },
+    { h: worst.r.category + ' has the weakest follow through',
+      p: 'It drew the most registrations (' + worst.r.registered + ') but only ' + aiPct(worst.sr) +
+         ' turned up, so ' + missed + ' students registered and never came.' },
+    { h: 'Recommendation: remind ' + worst.r.category + ' registrants',
+      p: 'A reminder the day before is the cheapest fix available. Closing half of that ' + missed +
+         ' seat gap would add about ' + Math.round(missed / 2) +
+         ' attendees without a single new registration.' }
+  ];
+
+  return { totalReg, totalAtt, show, growth, insights, rows };
+}
+
+/* ---------- the page ---------- */
+function pageOrganiser(){
+  return `
+  <div class="wrap" style="padding-top:34px">
+    <div class="section-head" style="margin-bottom:20px">
+      <div>
+        <span class="eyebrow">For organisers</span>
+        <h2 class="section-title">AI tools for clubs and colleges</h2>
+        <p class="section-sub">Two things the assistant does that save real hours: turning a club's
+           message into a published event, and turning a term of data into a report.</p>
+      </div>
+    </div>
+
+    <div class="ai-tabs">
+      <button class="ai-tab ${aiTab === 'create' ? 'active' : ''}" data-aitab="create">Create an event with AI</button>
+      <button class="ai-tab ${aiTab === 'insights' ? 'active' : ''}" data-aitab="insights">Engagement insights</button>
+    </div>
+
+    ${aiTab === 'create' ? aiCreateView() : aiInsightsView()}
+  </div>`;
+}
+
+function aiCreateView(){
+  return `
+  <div class="ai-layout">
+    <div class="ai-panel">
+      <h3>1. Paste what you already have</h3>
+      <p class="ai-hint">Most clubs write the event out in a WhatsApp group anyway. Paste that
+         message here - there is no form to fill in.</p>
+      <textarea class="ai-input" id="aiInput" aria-label="Event message">${esc(AI_SAMPLE)}</textarea>
+      <div class="ai-attach"><span class="ai-thumb">${AI_ICON.image}</span>
+        <span>poster.jpg attached - the assistant reads the poster text too</span></div>
+      <button class="btn btn--primary btn--block" style="margin-top:14px" id="aiRun">
+        ${AI_ICON.spark} Extract with AI</button>
+      <p class="ai-hint" style="margin-top:10px">The AI proposes and a human confirms. Nothing is
+         published until you press Publish.</p>
+    </div>
+    <div class="ai-panel" id="aiOut">${aiOutputHtml()}</div>
+  </div>`;
+}
+
+function aiOutputHtml(){
+  if(aiStage === 'idle'){
+    return `<h3>2. Review and publish</h3>
+      <p class="ai-hint">The extracted event appears here.</p>
+      <div class="empty"><div class="empty__icon">${AI_ICON.spark}</div>
+      <h3>Nothing extracted yet</h3>
+      <p>Paste a message on the left and press Extract with AI.</p></div>`;
+  }
+
+  if(aiStage === 'thinking'){
+    const steps = ['Reading the message','Finding the date, time and venue',
+                   'Writing the description','Checking what is missing'];
+    let rows = '';
+    steps.forEach((s, i) => {
+      const cls = i < aiStepsDone ? ' done' : (i === aiStepsDone ? ' active' : '');
+      rows += `<div class="ai-step${cls}"><span class="ai-dot"></span>${s}</div>`;
+    });
+    return `<h3>2. Review and publish</h3><p class="ai-hint">Working through the message...</p>
+            <div class="ai-steps">${rows}</div>`;
+  }
+
+  if(aiStage === 'published'){
+    return `<h3>2. Review and publish</h3>
+      <div class="empty"><div class="empty__icon">${AI_ICON.check}</div>
+      <h3>Event published</h3>
+      <p>It is live on the events page now, and students can register for it.</p>
+      <a href="#/events" class="btn btn--primary" style="margin-top:14px">See it on the events page</a></div>`;
+  }
+
+  const f = aiExtracted.fields, fl = aiExtracted.flags;
+
+  function field(id, label, value, flag, type){
+    const needs = flag === 'check';
+    const badge = needs
+      ? '<span class="ai-badge check">Please confirm</span>'
+      : '<span class="ai-badge ok">Read from message</span>';
+    return `<div class="ai-field${needs ? ' needs' : ''}">
+      <label for="${id}">${label}${badge}</label>
+      <input type="${type || 'text'}" id="${id}" value="${esc(value)}"></div>`;
+  }
+
+  let tags = '';
+  f.tags.forEach(t => { tags += `<span class="chip">${esc(t)}</span>`; });
+
+  return `<h3>2. Review and publish</h3>
+    <p class="ai-hint">Most fields were read straight from the message. Anything the assistant was
+       not sure about is flagged for you to check.</p>
+    ${field('fTitle','Event title', f.title, fl.title)}
+    <div class="ai-field"><label for="fCategory">Category</label>
+      <select id="fCategory">${['Technical','Cultural','Sports','Workshops','Hackathons']
+        .map(c => `<option${c === f.category ? ' selected' : ''}>${c}</option>`).join('')}</select></div>
+    ${field('fDate','Date', f.date, fl.date, 'date')}
+    ${field('fTime','Time', f.time, fl.time)}
+    ${field('fLocation','Venue', f.location, fl.location)}
+    ${field('fOrganizer','Organised by', f.organizer, 'ok')}
+    <div class="ai-field"><label for="fDesc">Description
+      <span class="ai-badge ok">Written by AI</span></label>
+      <textarea id="fDesc">${esc(f.desc)}</textarea></div>
+    <div class="ai-field"><label>Tags</label><div class="ai-tags">${tags}</div></div>
+    <button class="btn btn--primary btn--block" style="margin-top:6px" id="aiPublish">Publish event</button>`;
+}
+
+function aiInsightsView(){
+  let rows = '';
+  AI_TERM.forEach(r => {
+    rows += `<tr><td>${r.category}</td><td class="num">${r.registered}</td>
+      <td class="num">${r.attended}</td>
+      <td class="num">${aiPct(r.attended / r.registered)}</td>
+      <td class="num">${r.lastTerm ? aiPct((r.registered - r.lastTerm) / r.lastTerm) : '-'}</td></tr>`;
+  });
+
+  return `
+  <div class="ai-layout">
+    <div class="ai-panel">
+      <h3>Term data</h3>
+      <p class="ai-hint">What the platform recorded this term. In production this comes straight
+         from the database.</p>
+      <table class="ai-table"><thead><tr><th>Category</th><th class="num">Registered</th>
+        <th class="num">Attended</th><th class="num">Turnout</th><th class="num">Vs last term</th>
+        </tr></thead><tbody>${rows}</tbody></table>
+      <button class="btn btn--primary btn--block" style="margin-top:16px" id="aiReport">
+        ${AI_ICON.spark} Generate report</button>
+    </div>
+    <div class="ai-panel" id="repOut">${aiReportHtml()}</div>
+  </div>`;
+}
+
+function aiReportHtml(){
+  if(aiReportStage === 'idle'){
+    return `<h3>Report</h3><p class="ai-hint">A written summary for the college.</p>
+      <div class="empty"><div class="empty__icon">${AI_ICON.chart}</div>
+      <h3>No report yet</h3>
+      <p>Press Generate report and the assistant will write up the term.</p></div>`;
+  }
+  if(aiReportStage === 'thinking'){
+    return `<h3>Report</h3><p class="ai-hint">Reading the term data...</p>
+      <div class="ai-steps">
+        <div class="ai-step done"><span class="ai-dot"></span>Comparing categories</div>
+        <div class="ai-step active"><span class="ai-dot"></span>Writing the summary</div>
+      </div>`;
+  }
+
+  const r = aiReportData;
+  let html = `<h3>Engagement report</h3><p class="ai-hint">Written by AI from the data on the left.</p>
+    <div class="ai-kpis">
+      <div class="ai-kpi"><b>${r.totalReg.toLocaleString('en-IN')}</b><span>Registrations</span></div>
+      <div class="ai-kpi"><b>${aiPct(r.show)}</b><span>Overall turnout</span></div>
+      <div class="ai-kpi"><b>+${aiPct(r.growth)}</b><span>Vs last term</span></div>
+    </div><div class="ai-report">`;
+  r.insights.forEach(i => {
+    html += `<h4>${esc(i.h)}</h4><p>${esc(i.p)}</p>`;
+  });
+  return html + '</div>';
+}
+
+/* ---------- wiring ---------- */
+function bindOrganiser(){
+  document.querySelectorAll('[data-aitab]').forEach(tab => {
+    tab.onclick = () => { aiTab = tab.dataset.aitab; render(); };
+  });
+
+  const run = $('#aiRun'); if(run) run.onclick = aiRunExtract;
+  const pub = $('#aiPublish'); if(pub) pub.onclick = aiPublishEvent;
+  const rep = $('#aiReport'); if(rep) rep.onclick = aiRunReport;
+}
+
+function aiRunExtract(){
+  const box = $('#aiInput');
+  const text = (box && box.value.trim()) ? box.value : AI_SAMPLE;
+
+  aiStage = 'thinking';
+  aiStepsDone = 0;
+  $('#aiOut').innerHTML = aiOutputHtml();
+
+  const total = 4;
+  function tick(){
+    aiStepsDone++;
+    if(aiStepsDone < total){
+      $('#aiOut').innerHTML = aiOutputHtml();
+      setTimeout(tick, 420);
+    } else {
+      aiExtracted = aiCallBackend('extract', text);
+      aiStage = 'done';
+      $('#aiOut').innerHTML = aiOutputHtml();
+      // the publish button only exists now, so bind it here
+      const pub = $('#aiPublish');
+      if(pub) pub.onclick = aiPublishEvent;
+    }
+  }
+  setTimeout(tick, 420);
+}
+
+function aiPublishEvent(){
+  if(!aiExtracted) return;
+  const f = aiExtracted.fields;
+
+  const event = {
+    id: 'ai' + Date.now(),
+    title: $('#fTitle').value || f.title,
+    category: $('#fCategory').value || f.category,
+    date: $('#fDate').value || f.date || aiIso(new Date()),
+    time: $('#fTime').value || f.time || 'To be confirmed',
+    location: $('#fLocation').value || f.location || 'To be confirmed',
+    organizer: $('#fOrganizer').value || f.organizer,
+    participants: 0,
+    capacity: 100,
+    desc: $('#fDesc').value || f.desc,
+    tags: f.tags
+  };
+
+  DB.events.unshift(event);
+  saveDB();
+  aiStage = 'published';
+  toast('Event published', '"' + event.title + '" is now live on the events page.', 'success');
+  render();
+}
+
+function aiRunReport(){
+  aiReportStage = 'thinking';
+  $('#repOut').innerHTML = aiReportHtml();
+  setTimeout(() => {
+    aiReportData = aiCallBackend('report', AI_TERM);
+    aiReportStage = 'done';
+    $('#repOut').innerHTML = aiReportHtml();
+  }, 1100);
+}
+
 
 /* ============================================================
    INTERACTIONS
